@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        main {
+            margin: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            margin-top: 0;
+            font-size: 24px;
+        }
+        h2 {
+            font-size: 20px;
+            margin-top: 0;
+        }
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .result-table th, .result-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+        .result-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        .plot-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .plot-container img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #4CAF50;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        a:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Scan Results</h1>
+    </header>
+    <main>
+        <div class="container">
+            <h2>Results Overview</h2>
+            <table class="result-table">
+                <thead>
+                    <tr>
+                        <th>File Path</th>
+                        <th>Broken Access Control</th>
+                        <th>CSRF</th>
+                        <th>File Upload RCE</th>
+                        <th>XSS</th>
+                        <th>SQLi</th>
+                        <th>PHP Code Injection</th>
+                        <th>LFI/RFI</th>
+                        <th>LFI Readfile</th>
+                        <th>LFI Deletefile</th>
+                        <th>Privis</th>
+                        <th>Option Update Vulnerability</th>
+                        <th>Open Redirect</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for file_path, matches in results.items() %}
+                    <tr>
+                        <td>{{ file_path }}</td>
+                        <td>{{ matches['brokenaccesscontrol']|length }}</td>
+                        <td>{{ matches['csrf']|length }}</td>
+                        <td>{{ matches['fileuploadrce']|length }}</td>
+                        <td>{{ matches['xss']|length }}</td>
+                        <td>{{ matches['sqli']|length }}</td>
+                        <td>{{ matches['phpcodeinject']|length }}</td>
+                        <td>{{ matches['lfi_rfi']|length }}</td>
+                        <td>{{ matches['lfi_readfile']|length }}</td>
+                        <td>{{ matches['lfi_deletefile']|length }}</td>
+                        <td>{{ matches['privis']|length }}</td>
+                        <td>{{ matches['optionupdatevuln']|length }}</td>
+                        <td>{{ matches['openredirect']|length }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="plot-container">
+                <h3>Scan Summary</h3>
+                <img src="data:image/png;base64,{{ plot_img }}" alt="Scan Summary Graph">
+            </div>
+            <a href="{{ url_for('index') }}">Back to Upload Page</a>
+        </div>
+    </main>
+</body>
+</html>
